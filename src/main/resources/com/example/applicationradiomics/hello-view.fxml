@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Text?>
+<BorderPane fx:id="main_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.applicationradiomics.HelloController">
+
+    <top>
+        <MenuBar fx:id="menu">
+            <menus>
+                <Menu text="Files">
+                    <MenuItem fx:id="mbt_files" text="Open File" />
+                    <MenuItem fx:id="mbt_folders" text="Open Folder" />
+                </Menu>
+                <Menu text="Settings">
+                    <MenuItem fx:id="root_dit" text="Set Root dir" />
+                    <MenuItem fx:id="color" text="Themes" />
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+
+    <center>
+      <SplitPane fx:id="splt_panel" dividerPositions="-0.1" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+            <SplitPane dividerPositions="0.8" orientation="VERTICAL" prefHeight="160.0" prefWidth="374.0">
+                <TreeView fx:id="tree_prj">
+
+                </TreeView>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+            </SplitPane>
+            <SplitPane fx:id="rigth_split" dividerPositions="0.8" orientation="VERTICAL">
+                <TabPane fx:id="tab_panel" prefHeight="Infinity" prefWidth="Infinity">
+                    <Tab text="Radiomics" closable="false">
+                        <content>
+                            <ScrollPane>
+                                <TextArea text="proba" prefWidth="Infinity" prefHeight="Infinity" />
+                            </ScrollPane>
+                        </content>
+                    </Tab>
+                    <Tab text="ML" closable="false">
+                        <content>
+                            <ScrollPane>
+                                <TextArea text="proba" prefWidth="Infinity" prefHeight="Infinity" />
+                            </ScrollPane>
+                        </content>
+                    </Tab>
+                </TabPane>
+                <AnchorPane fx:id="bottom_panel">
+                    <children>
+                        <TextArea fx:id="text_area" editable="false" prefHeight="10.0" text="proba" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+                        </TextArea>
+                        <HBox fx:id="collapse_hbox" alignment="CENTER_RIGHT" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <Button onAction="#collapseTextArea" style="-fx-background-color: rgba(0, 0, 0, 0.01);; -fx-border-color: rgba(0, 0, 0, 0.01);" text="-" />
+                            <Button onAction="#fullscreen" style="-fx-background-color: rgba(0, 0, 0, 0.01);; -fx-border-color: rgba(0, 0, 0, 0.01);" text="☐" />
+                            <Button onAction="#Close" style="-fx-background-color: rgba(0, 0, 0, 0.01);; -fx-border-color: rgba(0, 0, 0, 0.01);" text="✖" />
+                        </HBox>
+                    </children>
+                </AnchorPane>
+            </SplitPane>
+        </items>
+      </SplitPane>
+   </center>
+   <left>
+      <VBox fx:id="left_menu" prefHeight="200.0" prefWidth="40.0" BorderPane.alignment="CENTER" spacing="5.0" visible="false">
+          <Button maxWidth="Infinity" minHeight="40.0" visible="false"/>
+          <Button maxWidth="Infinity" minHeight="40.0" visible="false"/>
+          <Button maxWidth="Infinity" minHeight="40.0" visible="false"/>
+      </VBox>
+   </left>
+
+    <bottom>
+        <AnchorPane>
+            <ProgressBar fx:id="process_bar" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="40.0" visible="false"/>
+        </AnchorPane>
+    </bottom>
+
+</BorderPane>
