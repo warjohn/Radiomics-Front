@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
-    //TODO make visible = false while program starting
+    //TODO доделать меню изменения цвета и прикрутить функицонал основной
     @NotNull
     @Contract("_, _ -> param1")
     private Stage initStage(Stage stage, Scene scene) {

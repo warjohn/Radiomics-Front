@@ -5,15 +5,17 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class ContextMenuEdit {
 
-    private ContextMenu menu = new ContextMenu();
-    private MenuItem removebt = new MenuItem("Delete");
-    private MenuItem addbt = new MenuItem("Add");
-    //private MenuItem makebt = new MenuItem("Make file");
+    private final ContextMenu menu = new ContextMenu();
+    private final MenuItem removebt = new MenuItem("Delete");
+    private final MenuItem addbtfile = new MenuItem("Add file");
+    private final MenuItem addbtfolder = new MenuItem("Add folder");
     private TextField textfield;
-    private File selectedFile;
+    private File selectedFile, selectedDir;
     private TreeView<String> tree_prj;
 
 
@@ -38,21 +40,24 @@ public class ContextMenuEdit {
                 TreeItem<String> qwe = tree_prj.getSelectionModel().getSelectedItem();
                 if (qwe == tree_prj.getRoot() && qwe != null) {
                     tree_prj.getRoot().getChildren().clear();
-                    tree_prj.getRoot().setValue("");
+                    tree_prj.setRoot(null);
+//                    tree_prj.refresh();
                 } else {
                     if (!qwe.getParent().getChildren().remove(qwe)) {
                             System.out.println("Error");
                     }
+//                    tree_prj.refresh();
                 }
             }
+//            tree_prj.getSelectionModel().clearSelection();
         });
 
-        addbt.setOnAction(event -> {
+        addbtfile.setOnAction(event -> {
             FileChooserClass file = new FileChooserClass();
-            selectedFile = file.fileChooser(primaryStage, addbt);
+            selectedFile = file.fileChooser(primaryStage, addbtfile);
             if (selectedFile != null) {
                 if (tree_prj.getRoot() == null) {
-                    TreeItem<String> rootItem = new TreeItem<>("Root File");
+                    TreeItem<String> rootItem = new TreeItem<>(selectedFile.getAbsolutePath());
                     rootItem.setExpanded(true);
                     rootItem.getChildren().add(new TreeItem<>(selectedFile.getName()));
                     tree_prj.setRoot(rootItem);
@@ -63,48 +68,61 @@ public class ContextMenuEdit {
                 }
             }
         });
-//        makebt.setOnAction(event -> {
-//            if (tree_prj.getRoot() == null) {
-//                TreeItem<String> rootItem = new TreeItem<>("Root Item");
-//                rootItem.setExpanded(true);
-//                tree_prj.setRoot(rootItem);
-//                textfield = new TextField();
-//                textfield.setPromptText("write file name");
-//                textfield.setOnAction(textevent -> {
-//                    if (!textfield.getText().isEmpty()) {
-//                        TreeItem<String> newItem = new TreeItem<>(textfield.getText());
-//                        rootItem.getChildren().add(newItem);
-//                        // create file on computer
-//                        createFile();
-//                        textfield.clear();
-//                    }
-//                });
-//            }
-//        });
+
+        addbtfolder.setOnAction(event -> {
+            DirChooserClass dir = new DirChooserClass();
+            selectedDir = dir.DirChooser(primaryStage, addbtfolder);
+            if (selectedDir != null) {
+                if (tree_prj.getRoot() == null || !selectedDir.getAbsolutePath().startsWith(tree_prj.getRoot().getValue())) {
+                    TreeItem<String> rootItem = new TreeItem<>(selectedDir.getAbsolutePath());
+                    rootItem.setExpanded(true);
+                    addDirectoryToTree(selectedDir, rootItem);
+                    tree_prj.setRoot(rootItem);
+                } else {
+                    TreeItem<String> rootItem = tree_prj.getRoot();
+                    addDirectoryToTree(selectedDir, rootItem);
+                }
+            }
+        });
     }
 
+    private void addDirectoryToTree(File dir, TreeItem<String> parentItem) {
+        File[] files = dir.listFiles();
+        if (files != null) {
+            Arrays.sort(files, new Comparator<File>() {
+                @Override
+                public int compare(File f1, File f2) {
+                    if (f1.isDirectory() && !f2.isDirectory()) {
+                        return -1; // f1 - папка, f2 - файл
+                    } else if (!f1.isDirectory() && f2.isDirectory()) {
+                        return 1; // f1 - файл, f2 - папка
+                    } else {
+                        return f1.getName().compareTo(f2.getName()); // если оба одинаковые, сортируем по имени
+                    }
+                }
+            });
+            for (File file : files) {
+                TreeItem<String> fileItem = new TreeItem<>(file.getName());
+                parentItem.getChildren().add(fileItem);
 
-    private void createFile() {
-
+                // Если это папка, рекурсивно добавляем её содержимое в дерево
+                if (file.isDirectory()) {
+                    addDirectoryToTree(file, fileItem);
+                }
+            }
+        }
     }
 
     private void settingsMenu() {
         menu.setPrefWidth(150.0);
         menu.setPrefHeight(200.0);
-        menu.getItems().addAll(removebt, addbt);
+        menu.getItems().addAll(removebt, addbtfile, addbtfolder);
     }
 
-    private ContextMenu getMenu() {
-        return menu;
-    }
-    public MenuItem get_removebt() {
-        return removebt;
-    }
-    public MenuItem get_addbt() {
-        return addbt;
-    }
-//    public MenuItem get_makebt() {
-//        return makebt;
-//    }
+    private ContextMenu getMenu() {return menu;}
+    public MenuItem get_removebt() {return removebt;}
+    public MenuItem get_addbt() {return addbtfile;}
+    public MenuItem get_addbtfolder() {return addbtfolder;}
+
 
 }

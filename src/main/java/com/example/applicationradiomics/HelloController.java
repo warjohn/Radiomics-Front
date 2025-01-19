@@ -3,10 +3,16 @@ package com.example.applicationradiomics;
 import com.example.applicationradiomics.utils.TabPaneController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
 import java.util.Objects;
+
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import com.example.applicationradiomics.utils.TreeController;
@@ -18,6 +24,8 @@ public class HelloController {
     @FXML private MenuItem mbt_folders;
     @FXML private TreeView<String> tree_prj;
     @FXML private TabPane tab_panel;
+    @FXML private MenuItem color;
+    @FXML private BorderPane main_pane;
 
     private String position = "CENTER";
     private boolean flagClose = false;
@@ -28,7 +36,6 @@ public class HelloController {
     @FXML
     public void initialize() {
         EventMainTree();
-        EventTab();
     }
 
     public void setPrimaryStage(Stage stage) {
@@ -36,15 +43,19 @@ public class HelloController {
     }
 
     public void EventMainTree() {
-        TreeController treeController = new TreeController(mbt_folders, mbt_files, primarystage, tree_prj);
+        TabPaneController tabPaneController = new TabPaneController(tree_prj, tab_panel);
+        TreeController treeController = new TreeController(mbt_folders, mbt_files, primarystage, tree_prj, tabPaneController);
         treeController.TreeMain();
     }
 
-    public void EventTab() {
-        TabPaneController tabPaneController = new TabPaneController(tree_prj, tab_panel);
-        tabPaneController.TabMain();
+    public void changeThemeColor() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("themes.fxml"));
+        Parent root = loader.load();
+        ThemesController themesController = loader.getController();
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(root));
+        themesController.setThemesStage(newStage);
     }
-
 
     public void collapseTextArea(ActionEvent actionEvent) {
         if (!Objects.equals(position, "CENTER") && !Objects.equals(position, "TOP")) {

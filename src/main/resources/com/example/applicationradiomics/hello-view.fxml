@@ -16,7 +16,7 @@
                 </Menu>
                 <Menu text="Settings">
                     <MenuItem fx:id="root_dit" text="Set Root dir" />
-                    <MenuItem fx:id="color" text="Themes" />
+                    <MenuItem fx:id="color" text="Themes" onAction="#changeThemeColor"/>
                 </Menu>
             </menus>
         </MenuBar>

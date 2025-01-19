@@ -1,5 +1,4 @@
 module com.example.applicationradiomics {
-    requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
 
@@ -11,6 +10,7 @@ module com.example.applicationradiomics {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires annotations;
+    requires com.jfoenix;
 
     opens com.example.applicationradiomics to javafx.fxml;
     exports com.example.applicationradiomics;

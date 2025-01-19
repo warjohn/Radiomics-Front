@@ -21,12 +21,14 @@ public class TreeController {
     private final Stage primarystage;
     private ContextMenu activeMenu;
     private File selectedFile, selecteddir;
+    private TabPaneController tabPaneController;
 
-    public TreeController(MenuItem mbt_folders, MenuItem mbt_files, Stage primarystage, TreeView<String> tree_prj) {
+    public TreeController(MenuItem mbt_folders, MenuItem mbt_files, Stage primarystage, TreeView<String> tree_prj, TabPaneController tabPaneController) {
         this.mbt_files = mbt_files;
         this.mbt_folders = mbt_folders;
         this.primarystage = primarystage;
         this.tree_prj = tree_prj;
+        this.tabPaneController = tabPaneController;
     }
 
     public void TreeMain() {
@@ -73,15 +75,26 @@ public class TreeController {
     }
 
     private void EventTree() {
-        tree_prj.setOnContextMenuRequested(event -> {
-            tree_prj.setOnMouseClicked(e -> {
+        tree_prj.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                // Обработка правого клика - показываем контекстное меню
+                System.out.println("tree_prj: right click " + tree_prj.toString());
+                if (activeMenu != null && activeMenu.isShowing()) {
+                    // Если контекстное меню уже открыто, скрыть его
+                    activeMenu.hide();
+                }
+                // Показать меню в новом месте
+                activeMenu.show(tree_prj, event.getScreenX(), event.getScreenY());
+
+            } else if (event.getButton() == MouseButton.PRIMARY) {
                 if (activeMenu != null && activeMenu.isShowing()) {
                     activeMenu.hide();
                 }
-                if (e.getButton() == MouseButton.SECONDARY) {
-                    activeMenu.show(tree_prj, e.getScreenX(), e.getScreenY());
+                System.out.println("tree_prj: clicked left " + tree_prj.toString());
+                if (event.getClickCount() == 2) {
+                    tabPaneController.handlerDoubleClick();
                 }
-            });
+            }
         });
     }
 
