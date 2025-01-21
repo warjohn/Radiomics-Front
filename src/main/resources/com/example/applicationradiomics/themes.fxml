@@ -29,15 +29,16 @@
             </VBox>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-            <VBox alignment="CENTER" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <JFXCheckBox text="Gradient"/>
+            <VBox alignment="CENTER" spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <JFXCheckBox fx:id="checkbox" text="Gradient" />
                 <HBox alignment="CENTER" spacing="10.0">
-                    <Label text="Transparency"  />
-                    <JFXSlider fx:id="transparency" max="255.0" value="1.0" valueChanging="true" />
+                    <Label text="Transparency" />
+                    <JFXSlider fx:id="transparency" max="1.0" value="0.5" valueChanging="true" />
                 </HBox>
             </VBox>
-            <Label text="Example" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="120.0" AnchorPane.leftAnchor="120.0"/>
-            <Pane fx:id="example_pane" prefHeight="25.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" style="-fx-background-color: #3498db; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: black;"/>
+            <Label text="Example" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0" />
+            <Pane fx:id="example_pane" prefHeight="25.0" style="-fx-background-color: #3498db; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: black;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+            <JFXButton fx:id="done" text="Done"  AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="120.0"/>
         </AnchorPane>
     </items>
 </SplitPane>

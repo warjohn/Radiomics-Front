@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.text.Text?>
 <BorderPane fx:id="main_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.applicationradiomics.HelloController">
 
     <top>
@@ -16,7 +15,10 @@
                 </Menu>
                 <Menu text="Settings">
                     <MenuItem fx:id="root_dit" text="Set Root dir" />
-                    <MenuItem fx:id="color" text="Themes" onAction="#changeThemeColor"/>
+                    <MenuItem fx:id="color" onAction="#changeThemeColor" text="Themes" />
+                </Menu>
+                <Menu text="StartPool">
+                    <MenuItem text="apply" fx:id="apply" />
                 </Menu>
             </menus>
         </MenuBar>
@@ -29,21 +31,146 @@
                 <TreeView fx:id="tree_prj">
 
                 </TreeView>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" >
+                     <JFXTreeView fx:id="yamlConfig" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="0.0">
+
+                     </JFXTreeView>
+                </AnchorPane>
             </SplitPane>
             <SplitPane fx:id="rigth_split" dividerPositions="0.8" orientation="VERTICAL">
                 <TabPane fx:id="tab_panel" prefHeight="Infinity" prefWidth="Infinity">
-                    <Tab text="Radiomics" closable="false">
+                    <Tab closable="false" text="Data Report">
                         <content>
-                            <ScrollPane>
-                                <TextArea text="proba" prefWidth="Infinity" prefHeight="Infinity" />
+                            <ScrollPane fitToHeight="true" fitToWidth="true">
+                                <AnchorPane>
+                                    <VBox fx:id="datareport" alignment="CENTER" spacing="10.0" style="-fx-padding: 10;"
+                                          AnchorPane.rightAnchor="10.0" AnchorPane.leftAnchor="10.0"
+                                          AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="-10.0">
+                                        <Label text="Data Report" prefHeight="30.0"
+                                               style="-fx-font-family: 'Impact'; -fx-font-size: 20; -fx-text-fill: #000000ff;"/>
+                                        <Separator/>
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="dataReport" text="Full report" HBox.hgrow="ALWAYS" />
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                        </HBox>
+                                    </VBox>
+                                </AnchorPane>
                             </ScrollPane>
                         </content>
                     </Tab>
-                    <Tab text="ML" closable="false">
+                    <Tab closable="false" text="Radiomics">
                         <content>
-                            <ScrollPane>
-                                <TextArea text="proba" prefWidth="Infinity" prefHeight="Infinity" />
+                            <ScrollPane fitToHeight="true" fitToWidth="true">
+                                <AnchorPane>
+                                    <VBox fx:id="radiomics" alignment="CENTER" spacing="10.0" style="-fx-padding: 10;"
+                                          AnchorPane.rightAnchor="10.0" AnchorPane.leftAnchor="10.0"
+                                          AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="-10.0">
+                                        <Label text="Filters" prefHeight="30.0"
+                                               style="-fx-font-family: 'Impact'; -fx-font-size: 20; -fx-text-fill: #000000ff;"/>
+                                        <Separator/>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="original" text="Original" />
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="originalparam" promptText="q" maxWidth="150" visible="false"/> <!-- Половина ширины -->
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="log" text="LoG"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="logparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="wavelet" text="Wavelet"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="waveletparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="logarithm" text="Logarithm"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="logarithmparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="square" text="Square"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="squareparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="gradient" text="Gradient"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="gradientparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="exponential" text="Exponential"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="exponentialparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="lbp2d" text="LBP2D"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="lbp2dparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="lbp3s" text="LBP3D"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="lbp3sparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="squareRoot" text="SquareRoot"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="squareRootparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+                                    </VBox>
+                                </AnchorPane>
+                            </ScrollPane>
+
+                        </content>
+                    </Tab>
+                    <Tab closable="false" text="ML">
+                        <content>
+                            <ScrollPane fitToHeight="true" fitToWidth="true">
+                                <AnchorPane>
+                                    <VBox fx:id="ml" alignment="CENTER" spacing="10.0" style="-fx-padding: 10;"
+                                          AnchorPane.rightAnchor="10.0" AnchorPane.leftAnchor="10.0"
+                                          AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="-10.0">
+
+                                        <Label text="Filters" prefHeight="30.0"
+                                               style="-fx-font-family: 'Impact'; -fx-font-size: 20; -fx-text-fill: #000000ff;"/>
+                                        <Separator/>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="kNN" text="kNN" />
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="kNNparam" promptText="q" maxWidth="150" visible="false"/> <!-- Половина ширины -->
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="LinearRegression" text="Linear Regression"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="lrparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="SVM" text="SVM"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="svmparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="10">
+                                            <JFXCheckBox fx:id="XGBClassifier" text="XGBClassifier"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <TextField fx:id="xgbparam" promptText="q" maxWidth="150" visible="false"/>
+                                        </HBox>
+                                    </VBox>
+                                </AnchorPane>
                             </ScrollPane>
                         </content>
                     </Tab>
@@ -65,16 +192,16 @@
       </SplitPane>
    </center>
    <left>
-      <VBox fx:id="left_menu" prefHeight="200.0" prefWidth="40.0" BorderPane.alignment="CENTER" spacing="5.0" visible="false">
-          <Button maxWidth="Infinity" minHeight="40.0" visible="false"/>
-          <Button maxWidth="Infinity" minHeight="40.0" visible="false"/>
-          <Button maxWidth="Infinity" minHeight="40.0" visible="false"/>
+      <VBox fx:id="left_menu" prefHeight="200.0" prefWidth="40.0" spacing="5.0" visible="false" BorderPane.alignment="CENTER">
+          <Button maxWidth="Infinity" minHeight="40.0" visible="false" />
+          <Button maxWidth="Infinity" minHeight="40.0" visible="false" />
+          <Button maxWidth="Infinity" minHeight="40.0" visible="false" />
       </VBox>
    </left>
 
     <bottom>
         <AnchorPane>
-            <ProgressBar fx:id="process_bar" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="40.0" visible="false"/>
+            <ProgressBar fx:id="process_bar" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         </AnchorPane>
     </bottom>
 

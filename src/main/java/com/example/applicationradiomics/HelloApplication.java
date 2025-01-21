@@ -8,11 +8,13 @@ import javafx.stage.Stage;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
 
-    //TODO доделать меню изменения цвета и прикрутить функицонал основной
+    private static final String CSS_FILE = "styles.css";
+
     @NotNull
     @Contract("_, _ -> param1")
     private Stage initStage(Stage stage, Scene scene) {
@@ -21,6 +23,15 @@ public class HelloApplication extends Application {
         stage.setTitle("MLRad");
         stage.setScene(scene);
         return stage;
+    }
+
+    private void loadCSS(Scene scene) {
+        File cssFile = new File(CSS_FILE);
+        if (cssFile.exists()) {
+            scene.getStylesheets().clear();
+            scene.getStylesheets().add(cssFile.toURI().toString());
+            System.out.println("CSS загружен!");
+        }
     }
 
     @Override
@@ -33,6 +44,7 @@ public class HelloApplication extends Application {
         helloController.setPrimaryStage(stage);
 
         Scene scene = new Scene(root);
+        loadCSS(scene);
         stage = initStage(stage, scene);
         stage.show();
     }

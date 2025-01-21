@@ -11,6 +11,7 @@ module com.example.applicationradiomics {
     requires com.almasb.fxgl.all;
     requires annotations;
     requires com.jfoenix;
+    requires org.yaml.snakeyaml;
 
     opens com.example.applicationradiomics to javafx.fxml;
     exports com.example.applicationradiomics;

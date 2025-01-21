@@ -1,6 +1,7 @@
 package com.example.applicationradiomics;
 
 import com.example.applicationradiomics.utils.TabPaneController;
+import com.jfoenix.controls.JFXTreeView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import com.example.applicationradiomics.utils.TreeController;
@@ -26,6 +28,11 @@ public class HelloController {
     @FXML private TabPane tab_panel;
     @FXML private MenuItem color;
     @FXML private BorderPane main_pane;
+    @FXML private VBox radiomics;
+    @FXML private VBox datareport;
+    @FXML private VBox ml;
+    @FXML private JFXTreeView<String> yamlConfig;
+    @FXML private MenuItem apply;
 
     private String position = "CENTER";
     private boolean flagClose = false;
@@ -43,9 +50,10 @@ public class HelloController {
     }
 
     public void EventMainTree() {
-        TabPaneController tabPaneController = new TabPaneController(tree_prj, tab_panel);
+        TabPaneController tabPaneController = new TabPaneController(tree_prj, tab_panel, radiomics, datareport, ml, yamlConfig, apply);
         TreeController treeController = new TreeController(mbt_folders, mbt_files, primarystage, tree_prj, tabPaneController);
         treeController.TreeMain();
+        tabPaneController.initPanes();
     }
 
     public void changeThemeColor() throws IOException {

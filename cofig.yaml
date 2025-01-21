@@ -1,0 +1,18 @@
+dataReport:
+  Full report
+radiomics:
+  - Square: q
+  - LBP2D: q
+  - Exponential: q
+  - Gradient: q
+  - LBP3D: q
+  - SquareRoot: q
+  - Logarithm: q
+  - Wavelet: q
+  - LoG: q
+  - Original: q
+ml:
+  - kNN: q
+  - Linear Regression: q
+  - SVM: q
+  - XGBClassifier: q

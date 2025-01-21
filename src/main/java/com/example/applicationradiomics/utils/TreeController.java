@@ -62,13 +62,13 @@ public class TreeController {
             selectedFile = file.fileChooser(primarystage, mbt_files);
             if (selectedFile != null) {
                 if (tree_prj.getRoot() == null || !selectedFile.getAbsolutePath().startsWith(tree_prj.getRoot().getValue()) ) {
-                    TreeItem<String> rootItem = new TreeItem<>(selectedFile.getAbsolutePath());
+                    TreeItem<String> rootItem = new TreeItem<>(selectedFile.getParent());
                     rootItem.setExpanded(true);
                     rootItem.getChildren().add(new TreeItem<>(selectedFile.getName()));
                     tree_prj.setRoot(rootItem);
                 } else {
                     TreeItem<String> rootItem = tree_prj.getRoot();
-                    rootItem.getChildren().add(new TreeItem<>(selectedFile.getAbsolutePath()));
+                    rootItem.getChildren().add(new TreeItem<>(selectedFile.getParent()));
                 }
             }
         });

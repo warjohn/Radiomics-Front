@@ -57,7 +57,7 @@ public class ContextMenuEdit {
             selectedFile = file.fileChooser(primaryStage, addbtfile);
             if (selectedFile != null) {
                 if (tree_prj.getRoot() == null) {
-                    TreeItem<String> rootItem = new TreeItem<>(selectedFile.getAbsolutePath());
+                    TreeItem<String> rootItem = new TreeItem<>(selectedFile.getParent());
                     rootItem.setExpanded(true);
                     rootItem.getChildren().add(new TreeItem<>(selectedFile.getName()));
                     tree_prj.setRoot(rootItem);
