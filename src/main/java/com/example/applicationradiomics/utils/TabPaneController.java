@@ -140,7 +140,7 @@ public class TabPaneController {
             Pipeline pipeline = new Pipeline(dataReport, radiomicsdata, mldata, yamlConfig);
             try {
                 pipeline.writeToYaml("cofig.yaml");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });

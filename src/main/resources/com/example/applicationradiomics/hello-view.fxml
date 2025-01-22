@@ -177,7 +177,7 @@
                 </TabPane>
                 <AnchorPane fx:id="bottom_panel">
                     <children>
-                        <TextArea fx:id="text_area" editable="false" prefHeight="10.0" text="proba" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TextArea fx:id="text_area" editable="true" prefHeight="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
                         </TextArea>
                         <HBox fx:id="collapse_hbox" alignment="CENTER_RIGHT" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

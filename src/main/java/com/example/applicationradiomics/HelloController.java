@@ -1,5 +1,9 @@
 package com.example.applicationradiomics;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.example.applicationradiomics.utils.LoggerController;
 import com.example.applicationradiomics.utils.TabPaneController;
 import com.jfoenix.controls.JFXTreeView;
 import javafx.event.ActionEvent;
@@ -12,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.SimpleFormatter;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -26,22 +31,24 @@ public class HelloController {
     @FXML private MenuItem mbt_folders;
     @FXML private TreeView<String> tree_prj;
     @FXML private TabPane tab_panel;
-    @FXML private MenuItem color;
-    @FXML private BorderPane main_pane;
     @FXML private VBox radiomics;
     @FXML private VBox datareport;
     @FXML private VBox ml;
     @FXML private JFXTreeView<String> yamlConfig;
     @FXML private MenuItem apply;
+    @FXML private TextArea text_area;
 
     private String position = "CENTER";
     private boolean flagClose = false;
-
     private Stage primarystage;
+
+    private static final Logger logger = Logger.getLogger(HelloController.class.getName());
+
 
 
     @FXML
     public void initialize() {
+        initLogs();
         EventMainTree();
     }
 
@@ -54,6 +61,16 @@ public class HelloController {
         TreeController treeController = new TreeController(mbt_folders, mbt_files, primarystage, tree_prj, tabPaneController);
         treeController.TreeMain();
         tabPaneController.initPanes();
+    }
+//    TODO додклвть логер !! фунция пока не рабоатет
+    public void initLogs() {
+        LoggerController loggerController = new LoggerController(text_area);
+        if (logger == null) {
+            logger.setFormatter(new SimpleFormatter()); // Применяем дефолтный форматтер
+        }
+        logger.addHandler(loggerController);
+        logger.setLevel(Level.ALL);
+        logger.info("Программа запущена!");
     }
 
     public void changeThemeColor() throws IOException {

@@ -12,6 +12,7 @@ module com.example.applicationradiomics {
     requires annotations;
     requires com.jfoenix;
     requires org.yaml.snakeyaml;
+    requires java.logging;
 
     opens com.example.applicationradiomics to javafx.fxml;
     exports com.example.applicationradiomics;

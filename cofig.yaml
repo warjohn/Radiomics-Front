@@ -2,13 +2,13 @@ dataReport:
   Full report
 radiomics:
   - Square: q
-  - LBP2D: q
   - Exponential: q
   - Gradient: q
+  - LBP2D: q
   - LBP3D: q
   - SquareRoot: q
-  - Logarithm: q
   - Wavelet: q
+  - Logarithm: q
   - LoG: q
   - Original: q
 ml:

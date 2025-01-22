@@ -1,22 +1,21 @@
 package com.example.applicationradiomics.utils;
+
 import com.jfoenix.controls.JFXTreeView;
 import javafx.scene.control.TreeItem;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
 public class Pipeline {
 
-
-    private Radiomics radiomics;
-    private DataReport dataReport;
-    private Ml ml;
-    private JFXTreeView<String> yamlconfig;
+    private final Radiomics radiomics;
+    private final DataReport dataReport;
+    private final Ml ml;
+    private final JFXTreeView<String> yamlconfig;
 
     public Pipeline(DataReport dataReport, Radiomics radiomics, Ml ml, JFXTreeView<String> yamlconfig) {
         this.dataReport = dataReport;
@@ -25,72 +24,67 @@ public class Pipeline {
         this.yamlconfig = yamlconfig;
     }
 
-    public void writeToYaml(String filePath) throws IOException {
-        DumperOptions options = new DumperOptions();
-        options.setIndent(4);
-        Yaml yaml = new Yaml(options);
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("dataReport:\n");
-        sb.append("  ").append(dataReport.getData()).append("\n");
-
-        sb.append("radiomics:\n");
-        for (String item : radiomics.getData()) {
-            sb.append("  - ").append(item).append("\n");
-        }
-
-        sb.append("ml:\n");
-        for (String item : ml.getData()) {
-            sb.append("  - ").append(item).append("\n");
-        }
-
-        try (FileWriter writer = new FileWriter(filePath)) {
-            writer.write(sb.toString());
-            updateTreeViewWithYaml(filePath);
-        }
-    }
-
-// TODO доделать дерево
-    private void updateTreeViewWithYaml(String filePath) {
+    public void writeToYaml(String filePath) {
         try {
-            Yaml yaml = new Yaml();
-            FileInputStream fileInputStream = new FileInputStream(filePath);
-            Map<String, Object> yamlData = yaml.load(fileInputStream);
-            TreeItem<String> rootItem = new TreeItem<>("Root");
-            rootItem.setExpanded(true);
-            addItemsToTree(rootItem, yamlData);
-            yamlconfig.setRoot(rootItem);
-            yamlconfig.setShowRoot(false);
+            DumperOptions options = new DumperOptions();
+            options.setIndent(4);
+            Yaml yaml = new Yaml(options);
+
+            StringBuilder sb = buildYamlContent();
+            System.out.println(sb);
+
+            try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filePath), StandardCharsets.UTF_8)) {
+                writer.write(sb.toString());
+            }
+
+            updateTreeViewWithYaml(sb);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void addItemsToTree(TreeItem<String> parent, Object data) {
-        if (data == null) {
-            return;
-        }
-        if (data instanceof Map) {
-            Map<String, Object> map = (Map<String, Object>) data;
-            for (String key : map.keySet()) {
-                TreeItem<String> keyItem = new TreeItem<>(key);
-                parent.getChildren().add(keyItem);
-                addItemsToTree(keyItem, map.get(key));
-            }
-        } else if (data instanceof List) {
-            List<Object> list = (List<Object>) data;
-            for (Object item : list) {
-                if (item != null) {
-                    TreeItem<String> listItem = new TreeItem<>(item.toString());
-                    parent.getChildren().add(listItem);
-                }
-            }
-        } else {
-            if (data != null) {
-                parent.getChildren().add(new TreeItem<>(data.toString()));
-            }
+    private StringBuilder buildYamlContent() {
+        StringBuilder sb = new StringBuilder()
+                .append("dataReport:\n  ").append(dataReport.getData()).append("\n")
+                .append("radiomics:\n");
+
+        radiomics.getData().forEach(item -> sb.append("  - ").append(item).append("\n"));
+        sb.append("ml:\n");
+        ml.getData().forEach(item -> sb.append("  - ").append(item).append("\n"));
+
+        return sb;
+    }
+
+    private void updateTreeViewWithYaml(StringBuilder sb) {
+        try {
+            Yaml yaml = new Yaml();
+            Map<String, Object> yamlData = yaml.load(sb.toString());
+            TreeItem<String> rootItem = new TreeItem<>("Root");
+            addItemsToTree(rootItem, yamlData);
+            rootItem.setExpanded(true);
+            rootItem.getChildren().forEach(item -> item.setExpanded(true));
+            yamlconfig.setRoot(rootItem);
+            yamlconfig.setShowRoot(false);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    private void addItemsToTree(TreeItem<String> parent, Object data) {
+        if (data instanceof Map) {
+            ((Map<String, Object>) data).forEach((key, value) -> {
+                TreeItem<String> keyItem = new TreeItem<>(key);
+                parent.getChildren().add(keyItem);
+                addItemsToTree(keyItem, value);
+            });
+        } else if (data instanceof List) {
+            ((List<?>) data).forEach(item -> {
+                if (item != null) {
+                    parent.getChildren().add(new TreeItem<>(item.toString()));
+                }
+            });
+        } else if (data != null) {
+            parent.getChildren().add(new TreeItem<>(data.toString()));
+        }
+    }
 }
