@@ -14,7 +14,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
 
     private static final String CSS_FILE = "styles.css";
-
+//TODO проблема в зависимости
     @NotNull
     @Contract("_, _ -> param1")
     private Stage initStage(Stage stage, Scene scene) {

@@ -13,6 +13,7 @@ module com.example.applicationradiomics {
     requires com.jfoenix;
     requires org.yaml.snakeyaml;
     requires java.logging;
+    requires javax.websocket.api;
 
     opens com.example.applicationradiomics to javafx.fxml;
     exports com.example.applicationradiomics;

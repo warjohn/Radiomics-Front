@@ -62,7 +62,7 @@ public class HelloController {
         treeController.TreeMain();
         tabPaneController.initPanes();
     }
-//    TODO додклвть логер !! фунция пока не рабоатет
+//    TODO made logger
 //    public void initLogs() {
 //        LoggerController loggerController = new LoggerController(text_area);
 //        if (logger == null) {

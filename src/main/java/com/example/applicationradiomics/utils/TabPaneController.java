@@ -138,8 +138,11 @@ public class TabPaneController {
     private void inithandlerApply() {
         apply.setOnAction(event -> {
             Pipeline pipeline = new Pipeline(dataReport, radiomicsdata, mldata, yamlConfig);
+            String fullString = dataReport.toString() + radiomicsdata.toString() + mldata.toString();
             try {
                 pipeline.writeToYaml("cofig.yaml");
+                WebSocketClient webSocketClient = new WebSocketClient();
+                webSocketClient.send(fullString);
             } catch (Exception e) {
                 e.printStackTrace();
             }
