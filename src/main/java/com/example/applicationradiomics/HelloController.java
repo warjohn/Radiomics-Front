@@ -48,7 +48,7 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-        initLogs();
+        //initLogs();
         EventMainTree();
     }
 
@@ -63,15 +63,15 @@ public class HelloController {
         tabPaneController.initPanes();
     }
 //    TODO додклвть логер !! фунция пока не рабоатет
-    public void initLogs() {
-        LoggerController loggerController = new LoggerController(text_area);
-        if (logger == null) {
-            logger.setFormatter(new SimpleFormatter()); // Применяем дефолтный форматтер
-        }
-        logger.addHandler(loggerController);
-        logger.setLevel(Level.ALL);
-        logger.info("Программа запущена!");
-    }
+//    public void initLogs() {
+//        LoggerController loggerController = new LoggerController(text_area);
+//        if (logger == null) {
+//            logger.setFormatter(new SimpleFormatter()); // Применяем дефолтный форматтер
+//        }
+//        logger.addHandler(loggerController);
+//        logger.setLevel(Level.ALL);
+//        logger.info("Программа запущена!");
+//    }
 
     public void changeThemeColor() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("themes.fxml"));

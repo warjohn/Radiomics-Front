@@ -1,10 +1,14 @@
 package com.example.applicationradiomics.utils;
 
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -14,9 +18,12 @@ public class ContextMenuEdit {
     private final MenuItem removebt = new MenuItem("Delete");
     private final MenuItem addbtfile = new MenuItem("Add file");
     private final MenuItem addbtfolder = new MenuItem("Add folder");
+    private final MenuItem copyPath = new MenuItem("Copy Path");
     private TextField textfield;
     private File selectedFile, selectedDir;
     private TreeView<String> tree_prj;
+    private Clipboard clipboard = Clipboard.getSystemClipboard();
+    private ClipboardContent clipboardContent = new ClipboardContent();
 
 
     private Stage primaryStage;
@@ -41,15 +48,19 @@ public class ContextMenuEdit {
                 if (qwe == tree_prj.getRoot() && qwe != null) {
                     tree_prj.getRoot().getChildren().clear();
                     tree_prj.setRoot(null);
-//                    tree_prj.refresh();
                 } else {
                     if (!qwe.getParent().getChildren().remove(qwe)) {
                             System.out.println("Error");
                     }
-//                    tree_prj.refresh();
                 }
             }
-//            tree_prj.getSelectionModel().clearSelection();
+        });
+
+        copyPath.setOnAction(event -> {
+            if (tree_prj.getSelectionModel().getSelectedItem() != null) {
+                TreeItem<String> qwe = tree_prj.getSelectionModel().getSelectedItem();
+                if (qwe.isLeaf()) {clipboardContent.putString(buildFullPath(qwe).toString()); clipboard.setContent(clipboardContent);} else {clipboardContent.putString(buildFullPath(qwe).toString());clipboard.setContent(clipboardContent);}
+            }
         });
 
         addbtfile.setOnAction(event -> {
@@ -86,6 +97,21 @@ public class ContextMenuEdit {
         });
     }
 
+    private Path buildFullPath(TreeItem<String> item) {
+        StringBuilder fullPath = new StringBuilder();
+
+        while (item != null) {
+            if (fullPath.length() == 0) {
+                fullPath.insert(0, item.getValue());
+            } else {
+                fullPath.insert(0, item.getValue() + "/"); // Для Windows можно "\\" заменить
+            }
+            item = item.getParent();
+        }
+
+        return Paths.get(fullPath.toString());
+    }
+
     private void addDirectoryToTree(File dir, TreeItem<String> parentItem) {
         File[] files = dir.listFiles();
         if (files != null) {
@@ -116,13 +142,14 @@ public class ContextMenuEdit {
     private void settingsMenu() {
         menu.setPrefWidth(150.0);
         menu.setPrefHeight(200.0);
-        menu.getItems().addAll(removebt, addbtfile, addbtfolder);
+        menu.getItems().addAll(removebt, addbtfile, addbtfolder, copyPath);
     }
 
     private ContextMenu getMenu() {return menu;}
     public MenuItem get_removebt() {return removebt;}
     public MenuItem get_addbt() {return addbtfile;}
     public MenuItem get_addbtfolder() {return addbtfolder;}
+    public MenuItem get_cppath() {return copyPath;}
 
 
 }
