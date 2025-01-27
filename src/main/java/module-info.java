@@ -12,8 +12,10 @@ module com.example.applicationradiomics {
     requires annotations;
     requires com.jfoenix;
     requires org.yaml.snakeyaml;
-    requires java.logging;
     requires javax.websocket.api;
+    requires org.glassfish.grizzly;
+    requires java.logging;
+    requires Java.WebSocket;
 
     opens com.example.applicationradiomics to javafx.fxml;
     exports com.example.applicationradiomics;

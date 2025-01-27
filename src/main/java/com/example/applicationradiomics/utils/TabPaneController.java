@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.nio.file.Paths;
 import java.util.List;
 
+
 public class TabPaneController {
 
     private TreeView<String> tree_prj;
@@ -138,11 +139,12 @@ public class TabPaneController {
     private void inithandlerApply() {
         apply.setOnAction(event -> {
             Pipeline pipeline = new Pipeline(dataReport, radiomicsdata, mldata, yamlConfig);
-            String fullString = dataReport.toString() + radiomicsdata.toString() + mldata.toString();
+            String fullString = dataReport.getData() + radiomicsdata.getData().toString() + mldata.getData().toString();
             try {
                 pipeline.writeToYaml("cofig.yaml");
-                WebSocketClient webSocketClient = new WebSocketClient();
-                webSocketClient.send(fullString);
+                socket client = new socket("ws://localhost:8000/ws");
+                client.connectBlocking(); // Подключаемся и ждем соединения
+                client.send(fullString);
             } catch (Exception e) {
                 e.printStackTrace();
             }
