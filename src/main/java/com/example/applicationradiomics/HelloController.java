@@ -1,9 +1,7 @@
 package com.example.applicationradiomics;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import com.example.applicationradiomics.utils.LoggerController;
+
 import com.example.applicationradiomics.utils.TabPaneController;
 import com.jfoenix.controls.JFXTreeView;
 import javafx.event.ActionEvent;
@@ -16,9 +14,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.logging.SimpleFormatter;
 
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -42,8 +38,6 @@ public class HelloController {
     private boolean flagClose = false;
     private Stage primarystage;
 
-    private static final Logger logger = Logger.getLogger(HelloController.class.getName());
-
 
 
     @FXML
@@ -57,21 +51,11 @@ public class HelloController {
     }
 
     public void EventMainTree() {
-        TabPaneController tabPaneController = new TabPaneController(tree_prj, tab_panel, radiomics, datareport, ml, yamlConfig, apply);
+        TabPaneController tabPaneController = new TabPaneController(tree_prj, tab_panel, radiomics, datareport, ml, yamlConfig, apply, text_area);
         TreeController treeController = new TreeController(mbt_folders, mbt_files, primarystage, tree_prj, tabPaneController);
         treeController.TreeMain();
         tabPaneController.initPanes();
     }
-//    TODO made logger
-//    public void initLogs() {
-//        LoggerController loggerController = new LoggerController(text_area);
-//        if (logger == null) {
-//            logger.setFormatter(new SimpleFormatter()); // Применяем дефолтный форматтер
-//        }
-//        logger.addHandler(loggerController);
-//        logger.setLevel(Level.ALL);
-//        logger.info("Программа запущена!");
-//    }
 
     public void changeThemeColor() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("themes.fxml"));

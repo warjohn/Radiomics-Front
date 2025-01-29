@@ -14,8 +14,8 @@ module com.example.applicationradiomics {
     requires org.yaml.snakeyaml;
     requires javax.websocket.api;
     requires org.glassfish.grizzly;
-    requires java.logging;
     requires Java.WebSocket;
+    requires com.fasterxml.jackson.databind;
 
     opens com.example.applicationradiomics to javafx.fxml;
     exports com.example.applicationradiomics;

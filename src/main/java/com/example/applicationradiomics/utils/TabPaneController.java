@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TabPaneController {
 
@@ -27,12 +29,20 @@ public class TabPaneController {
     private VBox ml;
     private JFXTreeView<String> yamlConfig;
     private MenuItem apply;
+    private TextArea textArea;
 
     private Radiomics radiomicsdata = new Radiomics();
     private DataReport dataReport = new DataReport();
     private Ml mldata = new Ml();
 
-    public TabPaneController(TreeView<String> tree_prj, TabPane tab_pane, VBox radiomics, VBox datareport, VBox ml, JFXTreeView<String> yamlConfig, MenuItem apply) {
+    public TabPaneController(TreeView<String> tree_prj,
+                             TabPane tab_pane,
+                             VBox radiomics,
+                             VBox datareport,
+                             VBox ml,
+                             JFXTreeView<String> yamlConfig,
+                             MenuItem apply,
+                             TextArea textArea) {
         this.tree_prj = tree_prj;
         this.tab_pane = tab_pane;
         this.radiomics = radiomics;
@@ -40,6 +50,7 @@ public class TabPaneController {
         this.ml = ml;
         this.yamlConfig = yamlConfig;
         this.apply = apply;
+        this.textArea = textArea;
     }
 
     public void initPanes() {
@@ -139,12 +150,20 @@ public class TabPaneController {
     private void inithandlerApply() {
         apply.setOnAction(event -> {
             Pipeline pipeline = new Pipeline(dataReport, radiomicsdata, mldata, yamlConfig);
-            String fullString = dataReport.getData() + radiomicsdata.getData().toString() + mldata.getData().toString();
+
             try {
-                pipeline.writeToYaml("cofig.yaml");
+                pipeline.writeToYaml("config.yaml");
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonString = objectMapper.writeValueAsString(Map.of(
+                        "dataReport", dataReport.getData(),
+                        "radiomicsData", radiomicsdata.getData().toString(),
+                        "mlData", mldata.getData().toString()
+                ));
+
                 socket client = new socket("ws://localhost:8000/ws");
-                client.connectBlocking(); // Подключаемся и ждем соединения
-                client.send(fullString);
+                client.setTextArea(textArea);
+                client.connectBlocking();
+                client.send(jsonString); // Отправляем JSON
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,7 @@
 package com.example.applicationradiomics.utils;
 
+import javafx.application.Platform;
+import javafx.scene.control.TextArea;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -8,8 +10,14 @@ import java.net.URISyntaxException;
 
 public class socket extends WebSocketClient {
 
+    private TextArea textArea;
+
     public socket(String serverUrl) throws URISyntaxException {
         super(new URI(serverUrl));
+    }
+
+    public void setTextArea(TextArea textArea) {
+        this.textArea = textArea;
     }
 
     @Override
@@ -19,7 +27,12 @@ public class socket extends WebSocketClient {
 
     @Override
     public void onMessage(String message) {
-        System.out.println("Received from server: " + message);
+        if (message.startsWith("LOG: ")) {
+            appendToTextArea("[SERVER LOG] " + message.substring(5) + "\n", "red");
+        }
+//        } else {
+//            appendToTextArea("Received from server: " + message + "\n", "black");
+//        }
     }
 
     @Override
@@ -30,5 +43,12 @@ public class socket extends WebSocketClient {
     @Override
     public void onError(Exception ex) {
         System.err.println("Error: " + ex.getMessage());
+    }
+
+    private void appendToTextArea(String text, String color) {
+        Platform.runLater(() -> {
+            textArea.appendText(text); // Добавляем текст с новой строки
+            textArea.setStyle("-fx-text-fill: " + color + ";"); // Красим текст
+        });
     }
 }
