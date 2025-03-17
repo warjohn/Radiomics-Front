@@ -43,7 +43,7 @@
                         <content>
                             <ScrollPane fitToHeight="true" fitToWidth="true">
                                 <AnchorPane>
-                                    <VBox fx:id="datareport" alignment="CENTER" spacing="10.0" style="-fx-padding: 10;"
+                                    <VBox fx:id="datareport" alignment="CENTER" spacing="20.0" style="-fx-padding: 10;"
                                           AnchorPane.rightAnchor="10.0" AnchorPane.leftAnchor="10.0"
                                           AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="-10.0">
                                         <Label text="Data Report" prefHeight="30.0"
@@ -53,6 +53,7 @@
                                             <JFXCheckBox fx:id="dataReport" text="Full report" HBox.hgrow="ALWAYS" />
                                             <Region HBox.hgrow="ALWAYS"/>
                                         </HBox>
+                                        <TextField />
                                     </VBox>
                                 </AnchorPane>
                             </ScrollPane>

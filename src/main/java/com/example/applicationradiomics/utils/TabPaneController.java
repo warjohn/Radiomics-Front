@@ -163,7 +163,7 @@ public class TabPaneController {
                 socket client = new socket("ws://localhost:8000/ws");
                 client.setTextArea(textArea);
                 client.connectBlocking();
-                client.send(jsonString); // Отправляем JSON
+                client.send(jsonString); // TODO
             } catch (Exception e) {
                 e.printStackTrace();
             }
